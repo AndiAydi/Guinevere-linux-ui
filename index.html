@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Guinevere AI OS Desktop</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#798098",
+                        "on-tertiary": "#412d00",
+                        "error": "#ffb4ab",
+                        "primary-container": "#0f172a",
+                        "tertiary-fixed-dim": "#e9c176",
+                        "on-error-container": "#ffdad6",
+                        "surface-dim": "#101415",
+                        "surface-container-lowest": "#0b0f10",
+                        "error-container": "#93000a",
+                        "surface-container-low": "#191c1e",
+                        "on-tertiary-fixed-variant": "#5d4201",
+                        "on-background": "#e0e3e5",
+                        "on-secondary-fixed-variant": "#3c475a",
+                        "on-primary-fixed": "#131b2e",
+                        "on-surface": "#e0e3e5",
+                        "on-primary-fixed-variant": "#3f465c",
+                        "primary": "#bec6e0",
+                        "on-tertiary-container": "#9d7b38",
+                        "outline": "#909097",
+                        "surface-container": "#1d2022",
+                        "on-error": "#690005",
+                        "inverse-primary": "#565e74",
+                        "on-secondary-container": "#aeb9d0",
+                        "surface-container-highest": "#323537",
+                        "surface-container-high": "#272a2c",
+                        "inverse-on-surface": "#2d3133",
+                        "background": "#101415",
+                        "on-surface-variant": "#c6c6cd",
+                        "surface": "#101415",
+                        "tertiary-container": "#211500",
+                        "on-secondary-fixed": "#111c2d",
+                        "outline-variant": "#45464d",
+                        "secondary": "#bcc7de",
+                        "primary-fixed-dim": "#bec6e0",
+                        "on-tertiary-fixed": "#261900",
+                        "on-primary": "#283044",
+                        "tertiary": "#e9c176",
+                        "secondary-fixed": "#d8e3fb",
+                        "on-secondary": "#263143",
+                        "primary-fixed": "#dae2fd",
+                        "surface-bright": "#363a3b",
+                        "surface-variant": "#323537",
+                        "secondary-fixed-dim": "#bcc7de",
+                        "secondary-container": "#3e495d",
+                        "inverse-surface": "#e0e3e5",
+                        "surface-tint": "#bec6e0",
+                        "tertiary-fixed": "#ffdea5"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "1rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "unit-4": "24px",
+                        "unit-1": "4px",
+                        "base": "8px",
+                        "unit-6": "48px",
+                        "unit-3": "16px",
+                        "unit-2": "8px",
+                        "gutter": "16px",
+                        "container-margin": "32px"
+                    },
+                    "fontFamily": {
+                        "label-mono": ["JetBrains Mono"],
+                        "headline-lg-mobile": ["Inter"],
+                        "body-md": ["Inter"],
+                        "headline-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-mono": ["12px", { "lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500" }],
+                        "headline-lg-mobile": ["24px", { "lineHeight": "32px", "fontWeight": "600" }],
+                        "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "400" }],
+                        "headline-md": ["24px", { "lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "letterSpacing": "-0.02em", "fontWeight": "600" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Inter', sans-serif;
+            background-color: #101415;
+            color: #e0e3e5;
+        }
+        .glass-panel {
+            background-color: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .glass-topbar {
+            background-color: rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .glass-dock {
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+        .dock-item:hover {
+            transform: scale(1.2) translateY(-10px);
+            margin: 0 10px;
+        }
+    </style>
+</head>
+<body class="relative w-screen h-screen">
+<!-- Background Wallpaper -->
+<div class="absolute inset-0 z-0 bg-cover bg-center" style="background-image: url('https://lh3.googleusercontent.com/aida/AP1WRLutrVKCJqESRiUh42M079Lxdpt4GcdTFdG6xqTfXSnc6QujYS66ZQeWERwvtfnswj58lhiw2eS-S3qpdtEjuvtFBjch-mEQI1sRVUeUxAdnzOvl1HbtIVu95AY5BXeTPGx9910CLMO27vToPEQFlU59xS6rZBNclclPMXb7aO37dezgkPfG0u2qD269FUWVhlL_MasdZdwuYYF22SpRl_AQ7qc_TSQqMjKb-LClCLYiTnDj8Iv3vaQGgwI');"></div>
+<!-- Top Navigation Bar (macOS Style) -->
+<nav class="glass-topbar border-b border-white/5 flex justify-between items-center px-6 h-8 w-full fixed top-0 z-50">
+<div class="flex items-center gap-6">
+<span class="material-symbols-outlined text-white text-lg cursor-pointer opacity-90 hover:opacity-100">apple</span>
+<div class="flex gap-4 items-center">
+<span class="text-[13px] font-semibold text-white/90 cursor-default">Finder</span>
+<span class="text-[13px] font-medium text-white/80 cursor-default hidden md:block">File</span>
+<span class="text-[13px] font-medium text-white/80 cursor-default hidden md:block">Edit</span>
+<span class="text-[13px] font-medium text-white/80 cursor-default hidden md:block">View</span>
+<span class="text-[13px] font-medium text-white/80 cursor-default hidden md:block">Go</span>
+<span class="text-[13px] font-medium text-white/80 cursor-default hidden md:block">Window</span>
+<span class="text-[13px] font-medium text-white/80 cursor-default hidden md:block">Help</span>
+</div>
+</div>
+<div class="flex items-center gap-4 h-full">
+<span class="material-symbols-outlined text-white text-[18px] opacity-80 cursor-pointer">battery_full</span>
+<span class="material-symbols-outlined text-white text-[18px] opacity-80 cursor-pointer">wifi</span>
+<span class="material-symbols-outlined text-white text-[18px] opacity-80 cursor-pointer">volume_up</span>
+<span class="material-symbols-outlined text-white text-[18px] opacity-80 cursor-pointer">search</span>
+<span class="material-symbols-outlined text-white text-[18px] opacity-80 cursor-pointer">tune</span>
+<span class="text-[13px] font-semibold text-white/90 ml-1">Kam 24 Okt 14:20</span>
+</div>
+</nav>
+<!-- Main Workspace -->
+<main class="relative z-10 flex w-full h-full pt-12 px-container-margin pb-32">
+<!-- Center/Left Space -->
+<div class="flex-grow"></div>
+<!-- Right Sidebar: Guinevere AI Widget Panel -->
+<div class="glass-panel rounded-2xl w-[320px] flex flex-col h-fit max-h-[calc(100vh-140px)] overflow-hidden shadow-2xl">
+<!-- AI Header -->
+<div class="flex flex-col border-b border-white/10">
+<!-- Carousel Container -->
+<div class="relative w-full aspect-video overflow-hidden group">
+<div class="flex w-full h-full">
+<img alt="Guinevere Athena Asamiya" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDM-Wue8rE2p8Uk1ocwgiT0b2WPH-nixQL-PdzQuM3zTL9PD6aKrOFYxBsDdqQEs42r24w0HqjAi95tsbjnpe44x77vlzUE4neFNQRC-PBNIZsPiZPKdMvhFhNJ9PfSHcj8jVuDSs1Hh53vjYYAnMsFUaC2Yt9eSFzHPdt2cxTuonIFyy3_l_y6KL807o_B12oeVdIDbRCkUPm8-PUs-NFjViOdqf24Np8p7z1CdH1p3PNe_eRrwzjMPIuhL4TCWAllOQkZmvaHEDk"/>
+</div>
+<!-- Pagination Dots -->
+<div class="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-2">
+<div class="w-2 h-2 rounded-full bg-white shadow-lg"></div>
+<div class="w-2 h-2 rounded-full bg-white/40"></div>
+<div class="w-2 h-2 rounded-full bg-white/40"></div>
+</div>
+<!-- AI Status Indicator Overlay -->
+<div class="absolute top-4 right-4 w-2.5 h-2.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#34d399] animate-pulse"></div>
+</div>
+<!-- Greeting Section -->
+<div class="p-5 bg-primary-container/20">
+<h2 class="font-headline-md text-xl font-bold text-white">Selamat datang kembali.</h2>
+<p class="text-xs font-label-mono text-tertiary-fixed mt-1 uppercase tracking-tighter">AI Engineer Session Active</p>
+</div>
+</div>
+<!-- Widget Content -->
+<div class="p-5 flex flex-col gap-6 overflow-y-auto">
+<!-- Weather & System Mini -->
+<div class="grid grid-cols-2 gap-3">
+<div class="bg-white/5 rounded-xl p-3 border border-white/5">
+<span class="material-symbols-outlined text-tertiary text-xl mb-1">cloud</span>
+<div class="text-xs font-bold text-white">2°C</div>
+<div class="text-[10px] text-white/50">Swiss Alps</div>
+</div>
+<div class="bg-white/5 rounded-xl p-3 border border-white/5">
+<span class="material-symbols-outlined text-primary text-xl mb-1">memory</span>
+<div class="text-xs font-bold text-white">15%</div>
+<div class="text-[10px] text-white/50">CPU Load</div>
+</div>
+</div>
+<!-- System Monitors -->
+<div class="flex flex-col gap-3">
+<h3 class="text-[10px] font-bold text-white/40 uppercase tracking-widest">System Resources</h3>
+<div class="space-y-3">
+<!-- RAM -->
+<div>
+<div class="flex justify-between text-[11px] mb-1">
+<span class="text-white/70">RAM Usage</span>
+<span class="text-primary font-mono">4.2 / 16GB</span>
+</div>
+<div class="w-full bg-white/10 rounded-full h-1">
+<div class="bg-primary h-1 rounded-full shadow-[0_0_8px_rgba(190,198,224,0.4)]" style="width: 26%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Calendar Mini View -->
+<div class="flex flex-col gap-3">
+<h3 class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Agenda</h3>
+<div class="bg-white/5 rounded-xl p-3 border border-white/5">
+<div class="flex justify-between items-center mb-2">
+<span class="text-xs font-bold text-tertiary">Oktober</span>
+</div>
+<div class="flex justify-between text-[11px]">
+<span class="text-white/30">22</span>
+<span class="text-white/30">23</span>
+<span class="w-5 h-5 flex items-center justify-center rounded-full bg-tertiary text-on-tertiary font-bold">24</span>
+<span class="text-white/30">25</span>
+<span class="text-white/30">26</span>
+</div>
+</div>
+</div>
+<!-- Tasks -->
+<div class="flex flex-col gap-3">
+<h3 class="text-[10px] font-bold text-white/40 uppercase tracking-widest">Active Tasks</h3>
+<div class="space-y-2">
+<div class="flex items-center gap-3 text-xs text-white/80 group cursor-pointer">
+<div class="w-4 h-4 rounded border border-white/20 flex items-center justify-center group-hover:border-tertiary"></div>
+<span>Optimize AI Neural Model</span>
+</div>
+<div class="flex items-center gap-3 text-xs text-white/80 group cursor-pointer">
+<div class="w-4 h-4 rounded border border-white/20 flex items-center justify-center group-hover:border-tertiary"></div>
+<span>Dataset validation check</span>
+</div>
+</div>
+</div>
+<!-- CTA -->
+<button class="w-full py-2.5 bg-white text-primary-container font-bold text-sm rounded-lg hover:bg-white/90 transition-all shadow-xl active:scale-[0.98] mt-2">
+                    Buka Guinevere AI
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Dock (macOS Style) -->
+<div class="fixed bottom-4 left-1/2 -translate-x-1/2 z-50">
+<div class="glass-dock px-3 py-2.5 rounded-[24px] flex items-end gap-2">
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Firefox">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-orange-500 to-yellow-400 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">language</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-white/60"></div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="VS Code">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-600 to-blue-400 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">code</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-white/60"></div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Terminal">
+<div class="w-12 h-12 rounded-xl bg-zinc-800 flex items-center justify-center border border-white/10 shadow-lg">
+<span class="material-symbols-outlined text-emerald-400 text-3xl">terminal</span>
+</div>
+<div class="w-1 h-1 rounded-full bg-white/60"></div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Obsidian">
+<div class="w-12 h-12 rounded-xl bg-purple-900 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">edit_note</span>
+</div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="File Manager">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-blue-400 to-blue-300 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">folder</span>
+</div>
+</div>
+<!-- Separator -->
+<div class="h-10 w-[1px] bg-white/20 mx-1 mb-2"></div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Telegram">
+<div class="w-12 h-12 rounded-xl bg-sky-500 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">send</span>
+</div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Spotify">
+<div class="w-12 h-12 rounded-xl bg-emerald-500 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">audiotrack</span>
+</div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Jupyter">
+<div class="w-12 h-12 rounded-xl bg-orange-600 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">analytics</span>
+</div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="Kaggle">
+<div class="w-12 h-12 rounded-xl bg-blue-500 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">dataset</span>
+</div>
+</div>
+<div class="dock-item flex flex-col items-center gap-1 cursor-pointer transition-all duration-300" title="GitHub">
+<div class="w-12 h-12 rounded-xl bg-zinc-900 flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-white text-3xl">hub</span>
+</div>
+</div>
+</div>
+</div>
+</body></html>
